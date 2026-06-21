@@ -1,0 +1,6 @@
+{
+  "name": "Class Speaking Slideshow",
+  "description": "Interactive classroom slideshow for 16 Level-1 English students supporting Solo, Pairs, Group-of-3, and Quiz activities.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
