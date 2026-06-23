@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Student } from './types';
 import IntroScreen from './components/IntroScreen';
+import SplashIntro from './components/SplashIntro';
 import WelcomeSlide from './components/WelcomeSlide';
 import SoloSlide from './components/SoloSlide';
 import PairsSlide from './components/PairsSlide';
 import Groups3Slide from './components/Groups3Slide';
+import DoDoesSlide from './components/DoDoesSlide';
+import VerbSuffixSlide from './components/VerbSuffixSlide';
 import QuizSlide from './components/QuizSlide';
 import OutroCelebration from './components/OutroCelebration';
 import { audio } from './utils/audio';
@@ -51,6 +54,7 @@ export default function App() {
   const [isStarted, setIsStarted] = useState(false);
   const [showScoreDrawer, setShowScoreDrawer] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
 
   // Sync to localstorage
   const saveStudents = (updatedList: Student[]) => {
@@ -109,14 +113,16 @@ export default function App() {
     }
   };
 
-  // Define classroom slide sequence
+  // Define classroom slide sequence with exactly 5 animal safari activities
   const slides = [
-    { type: 'welcome', title: 'Welcome', component: <WelcomeSlide students={students} onNext={handleNextSlide} /> },
-    { type: 'solo', title: 'Solo Activity', component: <SoloSlide students={students} onReward={handleReward} /> },
-    { type: 'pairs', title: 'Pairs Scenario', component: <PairsSlide students={students} onReward={handleReward} /> },
-    { type: 'group', title: 'Groups Mode', component: <Groups3Slide students={students} onReward={handleReward} /> },
+    { type: 'welcome', title: 'Intro', component: <WelcomeSlide students={students} onNext={handleNextSlide} /> },
+    { type: 'solo', title: 'Activity 1 (Solo)', component: <SoloSlide students={students} onReward={handleReward} /> },
+    { type: 'pairs', title: 'Activity 2 (Pairs)', component: <PairsSlide students={students} onReward={handleReward} /> },
+    { type: 'group', title: 'Activity 3 (Groups)', component: <Groups3Slide students={students} onReward={handleReward} /> },
+    { type: 'do_does', title: 'Activity 4 (Do/Does)', component: <DoDoesSlide students={students} onReward={handleReward} /> },
+    { type: 'verb_suffix', title: 'Activity 5 (Review Quiz)', component: <VerbSuffixSlide students={students} onReward={handleReward} /> },
     { type: 'quiz', title: 'Interactive Quiz', component: <QuizSlide students={students} /> },
-    { type: 'outro', title: 'Celebration Outro', component: <OutroCelebration students={students} onRestart={handleRestartAll} /> },
+    { type: 'outro', title: 'Outro', component: <OutroCelebration students={students} onRestart={handleRestartAll} /> },
   ];
 
   function handleNextSlide() {
@@ -139,6 +145,10 @@ export default function App() {
     // Erase temporary states, reset points optionally
     const resetPoints = students.map(s => ({ ...s, points: 0 }));
     saveStudents(resetPoints);
+  }
+
+  if (showSplash) {
+    return <SplashIntro onEnter={() => setShowSplash(false)} />;
   }
 
   if (!isStarted) {
@@ -169,7 +179,7 @@ export default function App() {
           </div>
           <div>
             <h1 className="font-display font-black text-lg text-black uppercase tracking-tight leading-none italic">
-              SpeakUp! <span className="text-neo-coral text-sm">L1</span>
+              SpeakUp! <span className="text-neo-coral text-sm">Grammar</span>
             </h1>
             <p className="text-[9px] font-mono text-black font-extrabold tracking-wider mt-0.5 uppercase">SLIDESHOW PRESENTER</p>
           </div>

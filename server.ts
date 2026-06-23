@@ -32,12 +32,12 @@ function getGeminiClient(): GoogleGenAI | null {
   return aiClient;
 }
 
-// API to generate interactive speaking custom prompts for Level 1 English
+// API to generate interactive speaking custom prompts for Grade 2 & 3 English Grammar
 app.post("/api/generate-prompt", async (req: Request, res: Response) => {
   try {
     const { activityType, topic } = req.body;
     const format = activityType || 'solo';
-    const chosenTopic = topic || 'general';
+    const chosenTopic = topic || 'grammar';
 
     const ai = getGeminiClient();
     if (!ai) {
@@ -48,36 +48,36 @@ app.post("/api/generate-prompt", async (req: Request, res: Response) => {
       });
     }
 
-    const systemPrompt = `You are an expert English teacher specializing in teaching Level 1 English (absolute starter/begginner speaking skills) to kids / young learners.
-Create a highly visual, simple speaking prompt suited for the requested format: '${format}' and topic: '${chosenTopic}'.
+    const systemPrompt = `You are an expert English teacher specializing in teaching Grade 2 & 3 Grammar (topics like Nouns, Verbs, Plurals, Pronouns, Prepositions, and Adjectives) to young learners.
+Create a highly visual, simple speaking grammar prompt suited for the requested format: '${format}' and topic: '${chosenTopic}'.
 
-The prompt must be super simple, using elementary English scaffolding templates because students only speak basic Level 1 phrases.
+The prompt must use age-appropriate Grade 2 & 3 grammar templates where students practice filling blanks.
 For format 'solo', the speaking prompt is for a single student.
-For format 'pairs', the prompt is a simple conversation starter between 2 speakers (Person A and Person B).
-For format 'group', the prompt is an collaborative sharing/circle game for 3-4 students.
-For format 'quiz', the prompt is an elegant, basic level 1 language trivia question with 4 options and a correct answer index (0-3).
+For format 'pairs', the prompt is a simple conversation starter between 2 speakers (Person A and Person B) practicing grammar.
+For format 'group', the prompt is an collaborative sharing/circle grammar game for 3-4 students.
+For format 'quiz', the prompt is an elegant Grade 2/3 grammar trivia question with 4 options and a correct answer index (0-3).
 
-You MUST respond strictly in JSON complying with the requested format. Choose a single illustrative emoji for the visualHint. Keep vocab terms extremely simple (e.g., cat, dog, apple, school, ball, big, happy, cold).`;
+You MUST respond strictly in JSON complying with the requested format. Choose a single illustrative emoji for the visualHint. Keep sentences clear and related to grammar.`;
 
     const responseSchema = {
       type: Type.OBJECT,
       properties: {
         title: {
           type: Type.STRING,
-          description: "A cute, simple, short title. Max 3 words (e.g. My Favorite Pet)"
+          description: "A cute, simple, short title. Max 3 words (e.g. Pronoun Power)"
         },
         description: {
           type: Type.STRING,
-          description: "The core challenge description. E.g. 'Tell the class' or 'Ask your partner'"
+          description: "The core challenge description. E.g. 'Practice pronouns with your partner'"
         },
         visualHint: {
           type: Type.STRING,
-          description: "A single representative emoji (e.g. 🐶 for pets, 🍎 for food)"
+          description: "A single representative emoji (e.g. 🦸‍♂️ for pronouns, 🎨 for adjectives)"
         },
         guidelines: {
           type: Type.ARRAY,
           items: { type: Type.STRING },
-          description: "2 or 3 extremely easy visual scaffolds. E.g. ['I like...', 'It is green.'] or ['Person A: Do you see the red bird?', 'Person B: Yes, I do!']"
+          description: "3 or 4 clear grammar-focused visual scaffolds. E.g. ['Look at that...!', 'He is...'] or ['Person A: Do you have a...?', 'Person B: Yes, I do! He has one too.']"
         }
       },
       required: ["title", "description", "visualHint", "guidelines"]
@@ -85,7 +85,7 @@ You MUST respond strictly in JSON complying with the requested format. Choose a 
 
     const response = await ai.models.generateContent({
       model: "gemini-3.5-flash",
-      contents: `Create a Level 1 speaking card prompt for: format=${format}, topic=${chosenTopic}. Keep sentences short, using simple words. Maximum 3 words per title. Make the guidelines extremely easy template fillings.`,
+      contents: `Create a Grade 2 & 3 Grammar speaking card prompt for: format=${format}, topic=${chosenTopic}. Keep sentences age-appropriate. Maximum 3 words per title. Make the guidelines clear sentence structures.`,
       config: {
         systemInstruction: systemPrompt,
         responseMimeType: "application/json",
@@ -106,7 +106,7 @@ You MUST respond strictly in JSON complying with the requested format. Choose a 
         id: `ai_${Date.now()}`,
         topic: chosenTopic,
         format: format,
-        level: "Level 1 Starter",
+        level: "Grade 2/3 Grammar",
         ...promptData
       }
     });

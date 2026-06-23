@@ -77,7 +77,7 @@ export default function IntroScreen({ students, onSave, onStart }: IntroScreenPr
         {/* Header section with brand info */}
         <div className="text-center mb-4 border-b-4 border-black pb-3">
           <div className="inline-flex items-center gap-2 bg-black text-white px-3 py-1 rounded-none text-[10px] font-black uppercase tracking-widest mb-2 font-mono">
-            <GraduationCap size={14} /> STARTER ENGLISH CLASS • BASIC L1
+            <GraduationCap size={14} /> ENGLISH GRAMMAR • GRADE 2 & 3
           </div>
           <h1 className="font-display text-3xl font-black uppercase tracking-tight text-black italic leading-none">
             SPEAKUP! STUDENTS ✨

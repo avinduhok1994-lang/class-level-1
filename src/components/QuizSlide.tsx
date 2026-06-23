@@ -203,7 +203,7 @@ export default function QuizSlide({ students }: QuizSlideProps) {
             {showAnswer && (
               <div className="mt-3 bg-neo-yellow/15 border border-black p-3 shadow-neo-sm animate-scale-up">
                 <span className="text-[9px] font-mono tracking-widest text-black font-black uppercase mb-0.5 block">
-                  💡 TEACHER'S LESSON NOTE
+                  💡 Safari Tip!
                 </span>
                 <p className="text-xs font-bold text-stone-900 leading-normal">
                   {question.explanation}
@@ -219,7 +219,7 @@ export default function QuizSlide({ students }: QuizSlideProps) {
               onClick={nextQuestion}
               className="px-4 py-2 bg-neo-green hover:bg-[#00dd00] text-black font-black border-4 border-black shadow-neo hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-neo active:translate-x-0 active:translate-y-0 active:shadow-none uppercase text-xs tracking-wider inline-flex items-center gap-1.5 transition cursor-pointer"
             >
-              Next Slide Question <ArrowRight size={12} className="stroke-[3.5]" />
+              Next Question ➔
             </button>
           </div>
 
