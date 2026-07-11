@@ -1,6 +1,6 @@
 {
   "name": "Class Speaking Slideshow",
-  "description": "Interactive classroom slideshow for Grade 2 and 3 English students specializing in Grammar supporting Solo, Pairs, Group-of-3, and Quiz activities.",
+  "description": "Interactive classroom slideshow for Grade 2 and 3 English students, specializing in grammar, possessives, and pronouns for Lesson 3 – Whose seat is this?.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

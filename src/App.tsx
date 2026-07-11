@@ -3,11 +3,11 @@ import { Student } from './types';
 import IntroScreen from './components/IntroScreen';
 import SplashIntro from './components/SplashIntro';
 import WelcomeSlide from './components/WelcomeSlide';
-import SoloSlide from './components/SoloSlide';
-import PairsSlide from './components/PairsSlide';
-import Groups3Slide from './components/Groups3Slide';
-import DoDoesSlide from './components/DoDoesSlide';
-import VerbSuffixSlide from './components/VerbSuffixSlide';
+import ListenReadSlide from './components/ListenReadSlide';
+import SpeakSlide from './components/SpeakSlide';
+import GrammarPracticeSlide from './components/GrammarPracticeSlide';
+import WriteSlide from './components/WriteSlide';
+import GameSlide from './components/GameSlide';
 import QuizSlide from './components/QuizSlide';
 import OutroCelebration from './components/OutroCelebration';
 import { audio } from './utils/audio';
@@ -113,14 +113,14 @@ export default function App() {
     }
   };
 
-  // Define classroom slide sequence with exactly 5 animal safari activities
+  // Define classroom slide sequence for Lesson 3
   const slides = [
     { type: 'welcome', title: 'Intro', component: <WelcomeSlide students={students} onNext={handleNextSlide} /> },
-    { type: 'solo', title: 'Activity 1 (Solo)', component: <SoloSlide students={students} onReward={handleReward} /> },
-    { type: 'pairs', title: 'Activity 2 (Pairs)', component: <PairsSlide students={students} onReward={handleReward} /> },
-    { type: 'group', title: 'Activity 3 (Groups)', component: <Groups3Slide students={students} onReward={handleReward} /> },
-    { type: 'do_does', title: 'Activity 4 (Do/Does)', component: <DoDoesSlide students={students} onReward={handleReward} /> },
-    { type: 'verb_suffix', title: 'Activity 5 (Review Quiz)', component: <VerbSuffixSlide students={students} onReward={handleReward} /> },
+    { type: 'listen_read', title: '1 - Listen & Read', component: <ListenReadSlide students={students} onReward={handleReward} /> },
+    { type: 'speak', title: '2 - Speak', component: <SpeakSlide students={students} onReward={handleReward} /> },
+    { type: 'grammar_practice', title: '3 - Grammar Practice', component: <GrammarPracticeSlide students={students} onReward={handleReward} /> },
+    { type: 'write', title: '4 - Write', component: <WriteSlide students={students} onReward={handleReward} /> },
+    { type: 'games', title: '5 - Games', component: <GameSlide students={students} onReward={handleReward} /> },
     { type: 'quiz', title: 'Interactive Quiz', component: <QuizSlide students={students} /> },
     { type: 'outro', title: 'Outro', component: <OutroCelebration students={students} onRestart={handleRestartAll} /> },
   ];

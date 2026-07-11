@@ -1,27 +1,69 @@
 import React, { useState } from 'react';
-import { Student, QuizQuestion } from '../types';
-import { QUIZ_QUESTIONS } from '../data/prompts';
+import { Student } from '../types';
 import { audio } from '../utils/audio';
-import { Sparkles, Check, X, ShieldAlert, Award, Grid, HelpCircle, ArrowRight } from 'lucide-react';
+import { Sparkles, Check, X, ShieldAlert, Award, HelpCircle } from 'lucide-react';
 
 interface QuizSlideProps {
   students: Student[];
 }
+
+const LESSON_QUIZ_QUESTIONS = [
+  {
+    id: 'q1',
+    question: '"Excuse me, whose seat is this?" -> "It is ______."',
+    options: ["mine", "my", "me", "I"],
+    correctIndex: 0,
+    explanation: "We use 'mine' as a possessive pronoun to mean 'my seat'. It replaces the noun seat so we don't repeat it!",
+    emojiHint: "🎟️"
+  },
+  {
+    id: 'q2',
+    question: '"I am sorry. It isn\'t yours. It is ______."',
+    options: ["yours", "mine", "my", "me"],
+    correctIndex: 1,
+    explanation: "Tom says: 'It isn't yours (Martin's). It is mine (Tom's).' Both are possessive pronouns showing ownership.",
+    emojiHint: "🏊‍♂️"
+  },
+  {
+    id: 'q3',
+    question: '"Martin! Are these ______ seats?"',
+    options: ["ours", "our", "us", "we"],
+    correctIndex: 1,
+    explanation: "We use the possessive adjective 'our' followed by the noun 'seats' to show they are sitting together.",
+    emojiHint: "👥"
+  },
+  {
+    id: 'q4',
+    question: '"Come on, Martin, let’s move. It is ______ seat."',
+    options: ["Toms", "Tom", "Tom's", "Toms'"],
+    correctIndex: 2,
+    explanation: "To show that a seat belongs to Tom, we add an apostrophe and s (’s) to his name: Tom’s.",
+    emojiHint: "👨‍🦰"
+  },
+  {
+    id: 'q5',
+    question: '"Whose shoes ______ these?" -> "They’re Martin’s."',
+    options: ["is", "are", "do", "does"],
+    correctIndex: 1,
+    explanation: "Shoes are plural, so we must ask: 'Whose shoes ARE these?' and answer with 'They’re Martin’s.'",
+    emojiHint: "👟"
+  }
+];
 
 export default function QuizSlide({ students }: QuizSlideProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [showAnswer, setShowAnswer] = useState(false);
 
-  // Teams point state (local to quiz activity slide, which is excellent!)
+  // Teams point state (local to quiz activity slide)
   const [redPoints, setRedPoints] = useState(0);
   const [bluePoints, setBluePoints] = useState(0);
 
-  // Automatically split students into Red & Blue teams (8 each)
-  const redTeam = students.slice(0, 8);
-  const blueTeam = students.slice(8, 16);
+  // Automatically split students into Red & Blue teams
+  const redTeam = students.slice(0, Math.ceil(students.length / 2));
+  const blueTeam = students.slice(Math.ceil(students.length / 2));
 
-  const question = QUIZ_QUESTIONS[currentIdx];
+  const question = LESSON_QUIZ_QUESTIONS[currentIdx];
 
   const handleOptionClick = (idx: number) => {
     setSelectedOption(idx);
@@ -37,7 +79,7 @@ export default function QuizSlide({ students }: QuizSlideProps) {
     audio.playTick();
     setSelectedOption(null);
     setShowAnswer(false);
-    setCurrentIdx((prev) => (prev + 1) % QUIZ_QUESTIONS.length);
+    setCurrentIdx((prev) => (prev + 1) % LESSON_QUIZ_QUESTIONS.length);
   };
 
   return (
@@ -62,12 +104,12 @@ export default function QuizSlide({ students }: QuizSlideProps) {
                 <span className="text-base font-mono font-black text-black bg-neo-coral/10 border border-black px-1.5">{redPoints} PTS</span>
               </div>
               
-              {/* 8 quick avatars */}
-              <div className="grid grid-cols-4 gap-1">
-                {redTeam.map((student) => (
-                  <div key={student.id} className="bg-white border border-black p-0.5 text-center text-[11px] font-black truncate">
+              {/* quick avatars limit display */}
+              <div className="grid grid-cols-4 gap-1 max-h-[85px] overflow-y-auto pr-0.5">
+                {redTeam.slice(0, 8).map((student) => (
+                  <div key={student.id} className="bg-white border border-black p-0.5 text-center text-[10px] font-black truncate">
                     <span className="text-sm">{student.emoji}</span>
-                    <p className="text-[8px] text-black/80 truncate mt-0.5 uppercase tracking-tight">{student.name}</p>
+                    <p className="text-[7px] text-black/80 truncate mt-0.5 uppercase tracking-tight">{student.name}</p>
                   </div>
                 ))}
               </div>
@@ -102,12 +144,12 @@ export default function QuizSlide({ students }: QuizSlideProps) {
                 <span className="text-base font-mono font-black text-black bg-neo-blue/10 border border-black px-1.5">{bluePoints} PTS</span>
               </div>
               
-              {/* 8 quick avatars */}
-              <div className="grid grid-cols-4 gap-1">
-                {blueTeam.map((student) => (
-                  <div key={student.id} className="bg-white border border-black p-0.5 text-center text-[11px] font-black truncate">
+              {/* quick avatars limit display */}
+              <div className="grid grid-cols-4 gap-1 max-h-[85px] overflow-y-auto pr-0.5">
+                {blueTeam.slice(0, 8).map((student) => (
+                  <div key={student.id} className="bg-white border border-black p-0.5 text-center text-[10px] font-black truncate">
                     <span className="text-sm">{student.emoji}</span>
-                    <p className="text-[8px] text-black/80 truncate mt-0.5 uppercase tracking-tight">{student.name}</p>
+                    <p className="text-[7px] text-black/80 truncate mt-0.5 uppercase tracking-tight">{student.name}</p>
                   </div>
                 ))}
               </div>
@@ -136,12 +178,6 @@ export default function QuizSlide({ students }: QuizSlideProps) {
             </div>
 
           </div>
-
-          <div className="pt-2 border-t border-black/10 mt-3">
-            <p className="text-[8px] text-stone-600 font-black font-mono text-center uppercase tracking-wider">
-              Score controls are manual to reward verbal classroom replies!
-            </p>
-          </div>
         </div>
 
       </div>
@@ -156,13 +192,13 @@ export default function QuizSlide({ students }: QuizSlideProps) {
             {/* Index label */}
             <div className="flex items-center justify-between mb-2.5 border-b-2 border-black pb-2">
               <span className="bg-neo-blue text-white font-mono text-[10px] font-black px-2.5 py-1 border-2 border-black shadow-neo-sm uppercase">
-                QUESTION {currentIdx + 1} OF {QUIZ_QUESTIONS.length}
+                QUESTION {currentIdx + 1} OF {LESSON_QUIZ_QUESTIONS.length}
               </span>
               <span className="text-2xl animate-bounce">{question.emojiHint}</span>
             </div>
 
             {/* Question title */}
-            <h3 className="font-display text-lg font-black text-black leading-snug my-2 uppercase tracking-normal italic">
+            <h3 className="font-display text-lg font-black text-black leading-snug my-2 uppercase tracking-normal italic text-left">
               {question.question}
             </h3>
 
@@ -201,14 +237,9 @@ export default function QuizSlide({ students }: QuizSlideProps) {
 
             {/* Answer Explanation */}
             {showAnswer && (
-              <div className="mt-3 bg-neo-yellow/15 border border-black p-3 shadow-neo-sm animate-scale-up">
-                <span className="text-[9px] font-mono tracking-widest text-black font-black uppercase mb-0.5 block">
-                  💡 Safari Tip!
-                </span>
-                <p className="text-xs font-bold text-stone-900 leading-normal">
-                  {question.explanation}
-                </p>
-              </div>
+              <p className="mt-3 text-xs font-bold text-[#16a34a] text-left">
+                ✔ {question.explanation}
+              </p>
             )}
 
           </div>
